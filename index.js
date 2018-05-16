@@ -18,15 +18,15 @@ Note: Same assumptions as above.
 3. We want to give our recruiters the ability to create lists of candidates for one-click scheduling of interviews.
 How would you design a database table for recruiters, candidates, and their date and time availability?
 
-  (r.availability) 			       (c.availability) 
-		 |                                |
-	 ----------                       ----------
-    |recruiters|    ---- ? -----     |candidates|     INTERVIEWS (ER model) 
-     ----------		                  ----------
-     	 |								  |
-       (rid) 							(cid)
+  (r.availability) 		       (c.availability) 
+  	 |         	                       |
+      ----------                           ----------
+    |recruiters|      ---- ? -----        |candidates|     INTERVIEWS (ER model) 
+     ----------		                   ----------
+     	 |		                       |
+       (rid) 		       		     (cid)
 		
-     / 			   \	/             \
+         /   	       \    /             \
 	/ can interview \  / is waiting on \   possible relationship sets 
 	\               /  \               /
 	 \             /    \             / 
@@ -55,8 +55,8 @@ If you can, compare one data type to another and briefly discuss the pros and co
 and when facing a high traffic and limited availability for a given recruiter, 
 how would you distribute interviews among candidates?	
 
-	The longer a candidate must wait, we risk the possibility of the candidate being hired by 
-	another recruiter. Keep a timestamp on candidate or the number of recruiters the candidate 
+    The longer a candidate must wait, we risk the possibility of the candidate being hired by 
+    another recruiter. Keep a timestamp on candidate or the number of recruiters the candidate 
     is waiting on (a popular candidate) to calculate priority. If the traffic to availibility 
     ratio is still high, consider a filter on candidate's attributes i.e. years-of-experience.
     An example of this logic in Postgres would be: 
