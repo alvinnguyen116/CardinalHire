@@ -20,7 +20,7 @@ How would you design a database table for recruiters, candidates, and their date
 
   (r.availability) 		       (c.availability) 
   	 |         	                       |
-      ----------                           ----------
+     ----------                            ----------
     |recruiters|      ---- ? -----        |candidates|     INTERVIEWS (ER model) 
      ----------		                   ----------
      	 |		                       |
@@ -33,9 +33,9 @@ How would you design a database table for recruiters, candidates, and their date
 
 	An example of using this table could be:
 
-	SELECT * FROM INTERVIEWS 
-	WHERE rid = 1234 AND 
-	c.availability BETWEEN r.availability AND r.availability; 
+		SELECT * FROM INTERVIEWS 
+		WHERE rid = 1234 AND 
+		c.availability BETWEEN r.availability AND r.availability; 
 
 
 
@@ -44,7 +44,9 @@ If you can, compare one data type to another and briefly discuss the pros and co
 
 	If an entity had multiple attributes which consisted of primarily strings, then we can 
 	achieve the same table if we stored the strings as a string array instead. We just have 
-	to replace all attribute names with array indexes. 
+	to replace all attribute names in Postgres statements with their corresponding array 
+	indices. By doings so, we save computation for any operation which divide strings and 
+	other data types (i.e. count the number of quanitative/qualitative attributes). 
 
 	Both Char(n) and Varchar(n) can only store up to n characters in length. If the string is 
 	less than n characters, Char(n) will pad empty spaces, while Varchar(n) will not. If what
@@ -61,7 +63,7 @@ how would you distribute interviews among candidates?
     ratio is still high, consider a filter on candidate's attributes i.e. years-of-experience.
     An example of this logic in Postgres would be: 
 
-    SELECT * FROM INTERVIEWS 
+    	SELECT * FROM INTERVIEWS 
 	WHERE rid = 1234 AND 
 	c.availability BETWEEN r.availability AND r.availability AND
 	years-of-experience >= 3 
